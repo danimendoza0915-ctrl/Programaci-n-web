@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanFlow Dashboard</title>
+    <style>
+        /*Dentro de este apartado se establece la estructura y los estilos 
+        generales que se implementaran dentro del sistema, abarcando colores, letras
+        y los tamaños */
+        :root {
+            --Fondo: #0d1117;
+            --panel: #161b22;
+            --tabla: #1c2128;
+            --texto: #e6edf3;
+            --stexto: #8b949e;
+            --acento: #00e5a0;
+            --borde: #30363d;
+            --flash: #ff4d4d;
+            --estandar: #f0a500;
+            --programado: #00b4d8;
+        }
+
+        /*Se establece la configuración general*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /*Se establece la estructura para el cuerpo de la pagina*/
+        body {
+            background-color: var(--Fondo);
+            color: var(--texto);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 17px;
+        }
+
+        /*Se establece el encabezado principal dentro del sistema*/
+        header {
+            background-color: var(--panel);
+            border-bottom: 2px solid var(--acento);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /*Se coloca la estructura para el nombre del sistema*/
+        header h1 {
+            font-size: 30px;
+            color: var(--acento);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /*Se establece la estructura del contenido principal con grid*/
+        main {
+            display: grid;
+            grid-template-columns: 2fr 350px;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        /*Se establecen los KPIs - indicadores clave del sistema*/
+        #kpis {
+            grid-column: 1/-1;
+            display: flex;
+            gap: 15px;
+        }
+
+        .kpi {
+            flex: 1;
+            background: var(--panel);
+            border: 4.5px solid var(--acento);
+            padding: 18px;
+        }
+
+        .kpi p {
+            font-size: 15px;
+        }
+
+        .kpi strong {
+            font-size: 30px;
+            color: var(--acento);
+        }
+
+        /*Se establece el contenedor del mapa interactivo*/
+        #map-container {
+            position: relative;
+            min-height: 425px;
+            background-color: #10213a;
+            border: 2px solid var(--borde);
+            overflow: hidden;
+        }
+
+        .mapa-info {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 7px 15px;
+            background: black;
+            color: var(--acento);
+            border: 2px solid var(--acento);
+            font-size: 15px;
+        }
+
+        /*Se establece la zona de cobertura simulada*/
+        .zona-cobertura {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid var(--acento);
+            background: rgba(0, 229, 160, .08);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /*Se establece el SVG de las rutas de entrega sobre el mapa*/
+        .rutas-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /*Se establece la estructura para los vehículos en el mapa*/
+        .vehiculo {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 9px;
+            color: var(--texto);
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        /*Se establece la estructura del panel lateral de despacho*/
+        aside {
+            background: var(--panel);
+            border: 2px solid var(--borde);
+        }
+
+        aside h2 {
+            padding: 15px;
+            color: var(--acento);
+            border-bottom: 2px solid var(--borde);
+        }
+
+        /*Se establece la sección de filtros*/
+        .filtros {
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--borde);
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .filtros label {
+            font-size: 10px;
+            color: var(--stexto);
+            text-transform: uppercase;
+        }
+
+        .filtros select {
+            background-color: var(--Fondo);
+            color: var(--texto);
+            border: 2px solid var(--borde);
+            padding: 6px 10px;
+            font-size: 15px;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        /*Se establece la estructura de la tabla de pedidos*/
+        .tabla-pedidos {
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 3px;
+            border: 2px solid var(--borde);
+            text-align: center;
+        }
+
+        th {
+            background: var(--tabla);
+        }
+
+        .tag {
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+        }
+
+        .flash      { background: rgba(255, 77, 77, .2);   color: var(--flash);     }
+        .estandar   { background: rgba(240, 165, 0, .2);   color: var(--estandar);  }
+        .programado { background: rgba(0, 180, 216, .2);   color: var(--programado);}
+
+        /* =========================
+           PANEL DE INFORMACIÓN DEL ENVÍO
+           (agregado para la Parte 2)
+        ========================== */
+        .info-envio {
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--borde);
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-envio h3 {
+            color: var(--acento);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        /* Estatus actual del pedido */
+        #estatus-actual {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--acento);
+            color: var(--acento);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* Botón de Cambio de Fase */
+        #btn-fase {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: var(--acento);
+            color: #111;
+            font-weight: bold;
+            font-size: 13px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #btn-fase:hover {
+            opacity: 0.85;
+        }
+
+        /* Botón de despachar pedido */
+        #btn-despachar {
+            margin: 10px 15px;
+            padding: 10px;
+            width: calc(100% - 30px);
+            background: transparent;
+            color: var(--acento);
+            border: 2px solid var(--acento);
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        #btn-despachar:hover {
+            background: rgba(0, 229, 160, 0.1);
+        }
+
+        /*Se establece la sección del protocolo de entrega segura*/
+        #protocolo {
+            grid-column: 1/-1;
+            background: var(--panel);
+            border: 2px solid var(--borde);
+            padding: 20px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .video { width: 1000px; }
+        .video video {
+            width: 100%;
+            border: 2px solid var(--borde);
+        }
+
+        .jerarquia span {
+            display: block;
+            margin-top: 7px;
+            padding: 7px;
+        }
+
+        /*Se establece la estructura del pie de página*/
+        footer {
+            background: var(--panel);
+            text-align: center;
+            padding: 15px;
+            border-top: 2px solid var(--borde);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Se establece el encabezado principal del sistema -->
+    <header>
+        <h1>UrbanFlow Operador Logístico</h1>
+    </header>
+
+    <!-- Se establece el main con el área principal del dashboard -->
+    <main>
+
+        <!-- KPIs: indicadores clave de rendimiento -->
+        <section id="kpis">
+            <!-- KPI 1: tiempo promedio de entrega (se actualiza desde JS) -->
+            <div class="kpi">
+                <p>Tiempo promedio</p>
+                <strong id="kpi-tiempo">40 min</strong>
+            </div>
+            <!-- KPI 2: pedidos pendientes (se actualiza desde JS) -->
+            <div class="kpi">
+                <p>Pedidos pendientes</p>
+                <strong id="kpi-pedidos">20</strong>
+            </div>
+            <!-- KPI 3: porcentaje de flota activa (se actualiza desde JS) -->
+            <div class="kpi">
+                <p>Flota activa</p>
+                <strong id="kpi-flota">80%</strong>
+            </div>
+        </section>
+
+        <!-- Mapa interactivo con vehículos, rutas y zona de cobertura -->
+        <!-- id="map-container" requerido por la rúbrica para el trazo de rutas -->
+        <div id="map-container">
+
+            <div class="mapa-info">Zona de cobertura</div>
+
+            <!-- Zona de cobertura circular simulada -->
+            <div class="zona-cobertura"></div>
+
+            <!--
+                SVG de rutas: se agrega id="svg-rutas" para que
+                urbanflow.js pueda trazar rutas dinámicas sobre él
+            -->
+            <svg class="rutas-svg" id="svg-rutas">
+                <!-- Ruta norte -->
+                <line x1="50%" y1="50%" x2="30%" y2="20%"
+                      stroke="#00e5a0" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.5"/>
+                <!-- Ruta este -->
+                <line x1="50%" y1="50%" x2="75%" y2="30%"
+                      stroke="#00e5a0" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.5"/>
+                <!-- Ruta sur -->
+                <line x1="50%" y1="50%" x2="60%" y2="75%"
+                      stroke="#f0a500" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.5"/>
+                <!-- Ruta oeste -->
+                <line x1="50%" y1="50%" x2="25%" y2="65%"
+                      stroke="#00b4d8" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.5"/>
+                <!-- Punto del hub central -->
+                <circle cx="50%" cy="50%" r="6" fill="#00e5a0" opacity="0.9"/>
+            </svg>
+
+            <!-- Motocicleta -->
+            <div class="vehiculo" style="top:12%; left:28%;" id="veh-1">
+                <svg width="40" height="30" viewBox="0 0 100 100">
+                    <circle cx="25" cy="70" r="15" fill="none" stroke="#ff4d4d" stroke-width="5"/>
+                    <circle cx="75" cy="70" r="15" fill="none" stroke="#ff4d4d" stroke-width="5"/>
+                    <rect x="35" y="40" width="30" height="15" fill="#ff4d4d"/>
+                </svg>
+                <span>Moto-001</span>
+            </div>
+
+            <!-- Bicicleta -->
+            <div class="vehiculo" style="top:25%; left:73%;" id="veh-2">
+                <svg width="40" height="30" viewBox="0 0 100 100">
+                    <circle cx="25" cy="70" r="15" fill="none" stroke="#00e5a0" stroke-width="5"/>
+                    <circle cx="75" cy="70" r="15" fill="none" stroke="#00e5a0" stroke-width="5"/>
+                    <line x1="25" y1="70" x2="50" y2="40" stroke="#00e5a0" stroke-width="5"/>
+                    <line x1="50" y1="40" x2="75" y2="70" stroke="#00e5a0" stroke-width="5"/>
+                </svg>
+                <span>Bicicleta-010</span>
+            </div>
+
+            <!-- Camioneta -->
+            <div class="vehiculo" style="top:68%; left:57%;" id="veh-3">
+                <svg width="45" height="30" viewBox="0 0 100 100">
+                    <rect x="15" y="40" width="50" height="25" fill="#f0a500"/>
+                    <rect x="65" y="50" width="20" height="15" fill="#f0a500"/>
+                    <circle cx="30" cy="75" r="10" fill="white"/>
+                    <circle cx="70" cy="75" r="10" fill="white"/>
+                </svg>
+                <span>Camioneta-050</span>
+            </div>
+
+        </div><!-- fin #map-container -->
+
+        <!-- Panel lateral de despacho -->
+        <aside>
+            <h2>Panel del Despacho</h2>
+
+            <!-- e. Panel de información del envío con botón de Cambio de Fase -->
+            <div class="info-envio">
+                <h3>Información del Envío</h3>
+                <p>Repartidor: <span id="info-repartidor">—</span></p>
+                <p>Vehículo: <span id="info-vehiculo">—</span></p>
+                <p>ETA: <span id="info-eta">—</span></p>
+                <p>Fase: <span id="estatus-actual">Sin asignar</span></p>
+                <!-- e. Botón de Cambio de Fase (f. onClick llama cambiarFase()) -->
+                <button id="btn-fase" onclick="cambiarFase()">
+                    Cambio de Fase ➜
+                </button>
+            </div>
+
+            <!-- Filtros de prioridad y estatus -->
+            <div class="filtros">
+                <label>Prioridad</label>
+                <select>
+                    <option>Flash</option>
+                    <option>Estándar</option>
+                    <option>Programado</option>
+                </select>
+                <label>Estatus del repartidor</label>
+                <select>
+                    <option>Disponible</option>
+                    <option>En Hub</option>
+                    <option>En Camino</option>
+                </select>
+            </div>
+
+            <!-- Botón para despachar un pedido -->
+            <button id="btn-despachar" onclick="despacharPedido()">
+                📦 Despachar Pedido
+            </button>
+
+            <!-- Tabla de pedidos activos (se actualiza desde JS) -->
+            <div class="tabla-pedidos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Destino</th>
+                            <th>Prioridad</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-pedidos">
+                        <!-- filas generadas desde urbanflow.js -->
+                    </tbody>
+                </table>
+            </div>
+
+        </aside>
+
+        <!-- Protocolo de entrega segura con video simulado -->
+        <section id="protocolo">
+            <div class="video">
+                <video controls>
+                    <source src="video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div>
+                <h3>Protocolo de entrega segura</h3>
+                <p>
+                    Se debe verificar la identidad del destinatario, revisar el estado
+                    del paquete e información, para después confirmar la entrega.
+                </p>
+                <div class="jerarquia">
+                    <span class="flash">1 - Flash</span>
+                    <span class="estandar">2 - Estándar</span>
+                    <span class="programado">3 - Programado</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <span>Daniel Mendoza Gutierrez ES23110925</span>
+        <span>&copy; Derechos reservados: UrbanFlow 2026</span>
+    </footer>
+
+    <!-- a. Archivo externo de JavaScript -->
+    <script src="urbanflow.js"></script>
+
+</body>
+</html>
