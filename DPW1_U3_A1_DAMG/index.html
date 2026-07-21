@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHome Vision 360°</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<!--La pagina realiza la primera carga de productos de forma automatica
+al momento de iniciar-->
+
+<body onload="cargarProducto(0)">
+
+    <!--Se establece la estructura del contenedor general, dentro del cual se encontrara 
+    la información de los productos -->
+    <header class="encabezado">
+        <h1 class="TituloP">SmartHome Vision 360°</h1>
+        <p class="subtitulo"> catalogo interactivo de dispositivos inteligentes</p>
+    </header>
+
+    <div class="Contenedor">
+        <div class="principal">
+
+            <div class="imagen-box">
+                <img id="ImagenPrincipal" src="" alt="producto">
+            </div>
+            <!--Se Coloca la información de los productos-->
+            <div class="info">
+                <h1 id="nombre"></h1>
+                <p id="descripcion"></p>
+                <h2 id="precio"></h2>
+
+                <!--Se establecen los bontones para que el usuario pueeda seleccionar cuantas unidades
+              son las que quiere-->
+                <div class="cantidad">
+                    <button onclick="Disminuir()">-</button>
+                    <span id="cantidad">1</span>
+                    <button onclick="Aumentar()">+</button>
+                </div>
+
+                <!--Se establece el mensaje dentro del cual se indica cuantas son las unidades 
+                 que estan disponbles del producto-->
+                <div id="mensajeStock" class="stock"> </div>
+                <button id="botonAgregar" class="button" onmouseover="MostrarStock()" onmouseout="OcultarStock()"
+                    onclick="AgregarAlCarrito()">
+                    Agregar al carrito
+                </button>
+            </div>
+        </div>
+        <!--Se esteblece la galeria de miniaturas para pdoer realizar el cmabio entre cada 
+            uno de los productos-->
+        <div class="galeria">
+            <img src="Imagenes/SmartHub.jpg" onclick="cargarProducto(0)">
+            <img src="Imagenes/Camara 4k.jpg" onclick="cargarProducto(1)">
+            <img src="Imagenes/cerradura.jpg" onclick="cargarProducto(2)">
+            <img src="Imagenes/sensor inteligente.jpg" onclick="cargarProducto(3)">
+            <img src="Imagenes/Asistente voz.jpg" onclick="cargarProducto(4)">
+        </div>
+    </div>
+
+    <footer class="PieDepagina">
+        <p class="pieN"> Daniel Mendoza Gutierrez ES231109257</P>
+        <p class="PieD"> &copy; Derechos reservados: SmartHome Vision 360°</p>
+    </footer>
+
+    <!--Notificacion que apaaparrece al confirmar una reserva-->
+    <div id="toast" class="toast"></div>
+
+    <!--Se implementa el archivo dentro del cual se establece toda la lógica del catalogo-->
+    <script src="app.js"></script>
+
+
+</body>
+
+</html>
