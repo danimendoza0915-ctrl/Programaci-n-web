@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanFlow Dashboard </title>
+    <style>
+        /*Dentro de este apartado se establece la estructura y los estilos 
+        generales que se implementaran dentro del sistema, abarcando colore, letras
+        y los tamaños */
+        :root {
+            --Fondo: #0d1117;
+            --panel: #161b22;
+            --tabla: #1c2128;
+            --texto: #e6edf3;
+            --stexto: #8b949e;
+            --acento: #00e5a0;
+            --borde: #30363d;
+            --flash: #ff4d4d;
+            --estandar: #f0a500;
+            --programado: #00b4d8;
+        }
+
+        /*Se  establece la configuración genral*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /*Se establece la estructura apra el cuerpo de la pagina*/
+        body {
+            background-color: var(--Fondo);
+            color: var(--texto);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 17px;
+        }
+
+        /*Se estable el encabezado principal dentro del sitema */
+        header {
+            background-color: var(--panel);
+            border-bottom: 2px solid var(--acento);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /*Se coloca la estructura para el nombre del sistema*/
+        header h1 {
+            font-size: 30px;
+            color: var(--acento);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /*Se estable la estructura del contenido principal, el cual contara con el uso de un 
+        grid  */
+        main {
+            display: grid;
+            grid-template-columns: 2fr 350px;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        /*Se establece la estructura de los kpis que son los indicadores clave dentro de
+        la estructura del sistema*/
+        #kpis {
+            grid-column: 1/-1;
+            display: flex;
+            gap: 15px;
+        }
+
+        .kpi {
+            flex: 1;
+            background: var(--panel);
+            border: 4.5px solid var(--acento);
+            padding: 18px;
+        }
+
+        .kpi p {
+            font-size: 15px;
+        }
+
+        .kpi strong {
+            font-size: 30px;
+            color: var(--acento)
+        }
+
+        /*Se establece la estructura del contenedor del mapa interactivo, en el cual se establecera
+        la  simulación visual del mapa de forma estática*/
+        #map-urbanflow {
+            position: relative;
+            min-height: 425px;
+            background-color: #10213a;
+            border: 2px solid var(--borde);
+            overflow: hidden;
+        }
+
+        .mapa-info {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 7px 15px;
+            background: black;
+            color: var(--acento);
+            border: 2px solid var(--acento);
+            font-size: 15px;
+        }
+
+        /*Se establece la zona de cobertura, la establece de forma simulada
+        mediante la implementación de un circulo */
+        .zona-cobertura {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid var(--acento);
+            background: rgba(0, 229, 160, .08);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /*Se establece el SVG  de las rutas de entregas sobre el mapa*/
+        .rutas-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /*Se establece la estrucutura para los vehiculos posicionados 
+        dentro del mapa*/
+        .vehiculo {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 9px;
+            color: var(--texto);
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        /*Se establece la estructura del panel lateral de desapacho*/
+        aside {
+            background: var(--panel);
+            border: 2px solid var(--borde)
+        }
+
+        aside h2 {
+            padding: 15px;
+            color: var(--acento);
+            border-bottom: 2px solid var(--borde);
+        }
+
+        /*Se estable la sección y la estructura y de los filtros*/
+        .filtros {
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--borde);
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        /*Se coloca la estrcutra de la etiqueta del filtro*/
+        .filtros label {
+            font-size: 10px;
+            color: var(--stexto);
+            text-transform: uppercase;
+        }
+
+        /*Se establece la estructura del select de filtro*/
+        .filtros select {
+            background-color: var(--Fondo);
+            color: var(--texto);
+            border: 2px solid var(--borde);
+            padding: 6px 10px;
+            font-size: 15px;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        /*Se establece la estructura de la tabla como a su vez la prioridad*/
+        .tabla-pedidos {
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 3px;
+            border: 2px solid var(--borde);
+            text-align: center;
+        }
+
+        th {
+            background: var(--tabla);
+        }
+
+        .tag {
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+        }
+
+        .flash {
+            background: rgba(255, 77, 77, .2);
+            color: var(--flash)
+        }
+
+        .estandar {
+            background: rgba(240, 165, 0, .2);
+            color: var(--estandar);
+        }
+
+        .programado {
+            background: rgba(0, 180, 216, .2);
+            color: var(--programado)
+        }
+
+        /*Se establece la seccion para el protocolo de entrega segura
+        dentro de la cual se contiene un video simulado y la jerarquia de
+        propiedades*/
+        #protocolo {
+            grid-column: 1/-1;
+            background: var(--panel);
+            border: 2px solid var(--borde);
+            padding: 20px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        /*Se establece la estructura para el video*/
+        .video{
+            width:1000px;
+        }
+        .video video{
+            width: 100%;
+            border: 2px solid var(--borde);
+        }
+
+        /*Se establece la jerarquia de propiedades*/
+        .jerarquia span {
+            display: block;
+            margin-top: 7px;
+            padding: 7px;
+        }
+
+        /*Se establece la estructura para el pie de pagina dentro del sitio
+        web*/
+        footer {
+            background: var(--panel);
+            text-align: center;
+            padding: 15px;
+            border-top: 2px solid var(--borde);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Se establece el encabezado principal dentro del sistema y se muestra 
+    el nombre de la plataforma-->
+    <header>
+        <h1> UrbanFlow Operador logistico</h1>
+    </header>
+
+    <!--S ee establece el main con el area principal del dashboard distribuyendo
+    de forma correcta cada uno de los elementos requeridos dentro del sistema -->
+    <main>
+        <section id="kpis">
+            <!-- KPI 1 Se coloca el tiempo promedio de entrega-->
+            <div class="kpi">
+                <p> Tiempo promedio</p>
+                <strong> 40 min</strong>
+            </div>
+            <!--kpi 2: Se colocan los pedidos pendientes-->
+            <div class="kpi">
+                <p> Pedidos pendientes</p>
+                <strong> 20</strong>
+            </div>
+            <!--Se coloca el porcentaje de la flota que se encuentra disponbile-->
+            <div class="kpi">
+                <p>Flota activa</p>
+                <strong>80%</strong>
+            </div>
+        </section>
+
+        <!-- Se establece el mapa interactivo dentro del  cuial se integran cada uno
+         de los aspectos que se necesitan dentro del sistema-->
+        <div id="map-urbanflow">
+            <!--Se establece el area de la cobertura de entrega simulada-->
+            <div class="mapa-info">
+                zona de cobertura
+            </div>
+
+            <!--Se establecen las lineas de las rutas planificadasdas y cada una de las 
+            lineas representa una ruta desde el hub-->
+            <div class="zona-cobertura"></div>
+            <svg class="rutas-svg">
+                <!--Ruta hacia el norte-->
+                <line x1="50%" y1="50%" x2="30%" y2="20%" stroke="#00e5a0" stroke-width="1.5" stroke-dasharray="5,4"
+                    opacity="0.5" />
+                <!--Ruta zona este -->
+                <line x1="50%" y1="50%" x2="75%" y2="30%" stroke="#00e5a0" stroke-width="1.5" stroke-dasharray="5.4"
+                    opacity="0.5" />
+                <!--Ruta  zona sur -->
+                <line x1="50%" y1="50%" x2="60%" y2="75%" stroke="#f0a500" stroke-width="1.5" stroke-dasharray="5.4"
+                    opacity="0.5" />
+                <!--Ruta zona oeste-->
+                <line x1="50%" y1="50%" x2="25%" y2="65%" stroke="#00b4d8" stroke-width="1.5" stroke-dasharray="5.4"
+                    opacity="0.5" />
+
+                <!--Punto del hub central-->
+                <circle cx="50%" cy="50%" r="6" fill="#00e5a0" opacity="0.9" />
+            </svg>
+
+            <!--Se establece cada uno de los vehiculos dentro de una zona del mapa-->
+            <!--Motocicleta -->
+            <div class="vehiculo" style="top:12%; left:28%;">
+                <svg width="40" height="30" viewBox="0 0 100 100">
+                    <circle cx="25" cy="70" r="15" fill="none" stroke="#ff4d4d" stroke-width="5" />
+                    <circle cx="75" cy="70" r="15" fill="none" stroke="#ff4d4d" stroke-width="5" />
+                    <rect x="35" y="40" width="30" height="15" fill="#ff4d4d" />
+                </svg>
+                <span> Moto-001</span>
+            </div>
+            <!--Bicleta-->
+            <div class="vehiculo" style="top:25%; left:73%;">
+                <svg width="40" height="30" viewBox="0 0 100 100">
+                    <circle cx="25" cy="70" r="15" fill="none" stroke="#00e5a0" stroke-width="5" />
+                    <circle cx="75" cy="70" r="15" fill="none" stroke="#00e5a0" stroke-width="5" />
+                    <line x1="25" y1="70" x2="50" y2="40" stroke="#00e5a0" stroke-width="5" />
+                    <line x1="50" y1="40" x2="75" y2="70" stroke="#00e5a0" stroke-width="5" />
+                </svg>
+                <span> Bicicleta-010</span>
+            </div>
+            <!--Camioneta -->
+            <div class="vehiculo" style="top:68%; left:57%;">
+                <svg width="45" height="30" viewBox="0 0 100 100">
+                    <rect x="15" y="40" width="50" height="25" fill="#f0a500" />
+                    <rect x="65" y="50" width="20" height="15" fill="#f0a500" />
+                    <circle cx="30" cy="75" r="10" fill="white" />
+                    <circle cx="70" cy="75" r="10" fill="white" />
+                </svg>
+                <span> Camioneta- 050</span>
+            </div>
+        </div>
+
+        <!--Se establece el panel de desapacho latera, el cual contiene filtros dependiendo segun la
+        prioridad o el estatus. Como a su vez la tabla de pedidos -->
+        <aside>
+            <!--Se establece el titulo dentro del panel-->
+            <h2> Panel del despacho</h2>
+            <div class="filtros">
+                <!--Dentro del filtro 1 se estable la estructura de la prioridad de envio-->
+                <label> prioridad</label>
+                <select>
+                    <option>Flash</option>
+                    <option>Estandar</option>
+                    <option>Programado</option>
+                </select>
+                <!--Dentro del filtro 2 se establece la estructura del repartidor-->
+                <label> Estatus del repartidor</label>
+                <select>
+                    <option>Disponbile</option>
+                    <option> En Hub</option>
+                    <option>En camino</option>
+                </select>
+            </div>
+
+            <!--Se establece la tabla de pedidos pentientes y en curso, cada uno con su respectiva
+            información  -->
+            <div class="tabla-pedidos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Destino</th>
+                            <th>Prioridad</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <!--Se establece la estructura de la fila 1-->
+                        <tr>
+                            <td> 0100</td>
+                            <td> Lomas Altas</td>
+                            <td><span class="tag flash">Flash</span></td>
+                            <td> En camino</td>
+                        </tr>
+                        <!--Se establece la estructura de la fila 2-->
+                        <tr>
+                            <td> 0120</td>
+                            <td> Palo Alto</td>
+                            <td><span class="tag estandar">Estandar</span></td>
+                            <td> Pendiente</td>
+                        </tr>
+                        <!--Se establece la estructura de la fila 3-->
+                        <tr>
+                            <td> 0150</td>
+                            <td> Coyoacán</td>
+                            <td><span class="tag programado">Programado</span></td>
+                            <td> En hub</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </aside>
+
+        <!--Se establece la estructura del protocolo y la entrega segura dentro de la cual 
+        se inclute un video instructivo simulado y la jerarquia de prioridad que tienen los paquetes-->
+        <section id="protocolo">
+            <!--Video simulado-->
+            <div class="video">
+                <video controls>
+                    <source src="video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <!--Se establece el texto del protocolo y la jerarquia de las prioridades-->
+            <div>
+                <h3> Protocolo de entrega segura</h3>
+                <p>
+                    Se debe verificar la identidad del destinario, dentro del cual se tendra
+                    que realizar la revision del estado del paquete, información, entre otras para después
+                    realizar la confirmación de la entrega.
+                </p>
+                <!--Se estagblece la jeraquia visual de la prioridad que tienen cada uno de los paquetes-->
+                <div class="jerarquia">
+                    <span class="flash"> 1- Flash</span>
+                    <span class="estandar"> 2- Estandar</span>
+                    <span class="programado"> 3- Programado</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--Se establece el pie de pagina del sistema-->
+    <footer>
+        <span>Daniel Mendoza Gutierrez ES23110925</span>
+        <span>&copy; Derechos reservados: UrbanFlow 2026</span>
+    </footer>
+
+</body>
+
+</html>
