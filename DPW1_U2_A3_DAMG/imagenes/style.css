@@ -1,0 +1,280 @@
+/*Se imporrta la fuentes que se va a utilizar dentro del sistema haciendo uso de Google Fonts
+dentro de este caso usaremos Robot */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/*Se establece el uso de variables globales de color y tipografia, esto lo que nos permite es poder
+mantener el mismo uso de elementos y estableciendo una buena  estructura visual dentro del sitió web */
+:root{
+    --azul-Noche: #0B1120;
+    --azul-medio: #111827;
+    --gris-acero: #CBD5E1;
+    --gris-claro: #F8FAFC;
+    --verde-cian: #14B7A6;
+    --blanco: #ffffff;
+    --Fuente: 'Roboto', sans-serif;
+}
+
+/*Dentro de este apatrtado se establecen y se defienn los tilos generales que se tedran dentro 
+de la pagina web para tener el control total sobre el espaciado de cada uno de los elemnentos*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/*Dentro de este apartado lo que busca es pdoer definir el estilo general del cuerpo del sitio web
+se definen aspectos como la fuente, color de forndo y el color del texto*/
+
+body{
+    font-family: var(--Fuente);
+    background-color: var(--azul-Noche);
+    color: var(--gris-claro);
+    list-style: 1.4;
+}
+
+/*Se define el encabezado principal del sitio web, para poder realizar la separación de visual del contenido,
+con el encabezado*/
+header{
+    background-color: var(--azul-medio);
+    padding: 25px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--verde-cian);
+}
+.logoC{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo{
+    width: 80px;
+    height: auto;
+}
+
+/*Se establece la estructura para el nombre de la empresa dentro del encabezxado, como a su vez el color
+de esta forma para que destaque*/
+.logoT{
+    display: flex;
+    flex-direction: column;
+}
+.logoC h1{
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--verde-cian);
+    letter-spacing: 2px;
+    margin: 0;
+}
+.logoC p{
+    font-size: 0.70rem;
+    color: var(--gris-claro);
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/*Se establece la estrucrttura de la navegación con los enlaces. A su vez se hace uso de Flexbox para que se pueda 
+distribuir los links de forma hoizontal con espacios entre ellos*/
+nav a{
+    color: var(--gris-claro);
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.4s;
+}
+/*Se establece un efecto hover dentro de los enlaces de navegación, el cual permite que se cambie de color 
+al momneto de pasar la flechita del mouse, lo cual muestra la interacción del usuario.*/
+nav a:hover{
+    color:var(--verde-cian)
+}
+/*Se establece la estructura para el banner principal, dando un apsecto deiferente dentro de la sección principal
+abarcando desde el titulo principal, el parrafo y el boton*/
+.banner{
+    background: linear-gradient(120deg,#0B1120 0%, #173350 100% );
+    text-align: center;
+    padding: 70px 35px;
+    border-bottom: 2px solid var(--gris-acero);
+}
+.banner h2{
+    font-size: 3.0rem;
+    font-weight: 800;
+    color: var(--verde-cian);
+    margin-bottom: 20px;
+}
+.banner p{
+    font-size: 1.09rem;
+    color: var(--gris-claro);
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    font-weight: 400;
+}
+.Principal{
+    display: inline-block;
+    background-color: var(--verde-cian);
+    color: var(--azul-Noche);
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.9px;
+    transition: background-color 0.4s, tranform 0.5s;
+}
+.Principal:hover{
+    background-color:#02aa8e ;
+    transform: translateY(-4px);
+}
+
+/*Se establece la estructura del contedor, limitando el ancho y centrando el contenido, como a su vez
+establecer los colores y las tipografias dentro del titulo y los parrafos*/
+.contenedor{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-inline: 60px 35px;
+}
+.contenedor h2{
+    font-size: 2rem;
+    color:var(--verde-cian);
+    margin-bottom: 30px;
+    border-left: 7px solid var(--verde-cian);
+    padding-left: 12;
+}
+.contenedor p{
+    color: #bfcad6;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/*Se establece la estructura, tipo grafia a cada uno de los apartados para la información de la instución hasta
+hasta las tarjetas de información */
+
+.informacion{
+    background-color: var(--azul-medio);
+    border-radius: 10px;
+    padding: 40px;
+    margin-bottom: 35px;
+    border-left: 5px solid var(--verde-cian);
+}
+.precio{
+    color: var(--verde-cian);
+    margin-top: 15px;
+    font-size: 1rem;
+}
+.nivel{
+    font-size: 0.80rem;
+    margin-top: 8px;
+    color: #94a8bd;
+    font-weight: 400;
+}
+.resaltado{
+    color: var(--verde-cian);
+}
+
+/*Se establecen cada uno de los apsectos importantes dentro del formulario, como lo es el tamño, color, la tipografia 
+lo cual permitira una mejor interacción*/
+.informacion label{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color:var(--gris-claro)
+}
+
+.informacion input,
+.informacion select, 
+.informacion textarea{
+    width: 100%;
+    padding: 14px 19px;
+    border-radius: 8px;
+    background-color: var(--azul-Noche);    
+    border: 2px solid #27374b;
+    color: var(--gris-claro);
+    font-family: var(--Fuente);
+    font-size: 1rem;
+}
+.informacion textarea{
+    resize: vertical;
+}
+.informacion .Principal{
+    width: 100%;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/*A cada una de las imagenes que esten dentro de los bloques infromativos se les establecera el tamanño necesario
+para que estos puedan servir de ilustación, sin dominar el contenido de texto de la sección*/
+.icono{
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin: 0 auto 17px auto;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.icono h3{
+    font-size: 1.5rem;
+    color: var(--blanco);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/*Se establece la estructura y los estilos que se utilizaran dentro de welcome.html, dentro del cual se definiran tamaños,
+colores, organizarlas y ofrecer una mejor visión del sistema*/
+.Tarjetas{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+.Tarjeta{
+    background-color: var(--azul-medio);
+    border-radius: 20px;
+    padding: 35px 23px;
+    text-align: center;
+    border: 2px solid #263649;
+    transition: transform 0.3s, border-color 0.3s;
+    text-decoration: none;
+    color: var(--gris-claro);
+    display: block;
+}
+.Tarjeta:hover{
+    transform: translateY(-8px);
+    border-color: var(--verde-cian);
+}
+.Tarjeta .icono{
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 18px;
+}
+.Tarjeta h3{
+    font-size: 1.3rem;
+    color: var(--blanco);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.Tarjeta p{
+    font-size: 0.90rem;
+    color: #94a8bd;
+    font-weight: 500;
+}
+
+/*Se establece la estrctura dentro del pie de pagina del sitio web y distribuir la información */
+footer{
+    background-color: var(--azul-medio);
+    text-align: center;
+    padding: 30px 35px;
+    border-top: 3px solid var(--verde-cian);
+    font-size: 0.90rem;
+    color: var(--gris-acero);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+footer span{
+    color:var(--verde-cian);
+    grid-template-columns: 1fr;
+}

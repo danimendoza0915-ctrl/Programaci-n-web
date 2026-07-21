@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLiving Solutions-catalogo </title>
+    <link rel="stylesheet" href="imagenes/style.css">
+
+</head>
+
+<body>
+
+    <!--Dentro de este apartado se genera  el logotipo y la navegación principal, que se tendrá 
+     dentro del sistema del caso de estudio-->
+    <header>
+        <div class="logoC">
+            <img src="imagenes/logo.jpg" alt="logo SmartLiving" class="logo">
+            <div class="logoT">
+                <h1>SmartLiving Solutions</h1>
+                <p> La mejor tecnología para tu hogar</p>
+            </div>
+        </div>
+
+        <!--Se establece la navegación de cada uno de las paginas que se requiere dentro 
+        del caso de estudio-->
+        <nav>
+            <a href="index.html"> Inicio</a>
+            <a href="welcome.html"> Catologo</a>
+            <a href="welcome.html#Contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <!--Se estableceel contenido principal de la pantalla de welcome dnetro del cual se le da un saludo
+    al usuario y se da el contexto sobre lo que encontrara dentro de este apartado-->
+    <section class="banner">
+        <h2>Bienvenido a nuestro Catálogo</h2>
+        <p>
+            Dentro de esta sección podras explorar nuestros servicios, productos y paquetes. Para cualquier información
+            ponte en contacto con nosostros y uno de nuestros asesores especialidzados te brindara la atención y
+            asesorianecesaria para tu caso.
+        </p>
+    </section>
+
+    <main class="contenedor">
+        <!--Se establece la lineas del os productos dentro del cual se representan las tres categorias 
+        principales con las cuales se cuentan dentro del caso de estudio, las cuales tienen que ver con la seguridad,
+        la comoduidad y el entretenimiento-->
+        <h2>Lineas de productos</h2>
+
+        <!--Tarjeta de seguridad-->
+        <div class="Tarjetas">
+            <a href="#seguridad" class="Tarjeta">
+                <img src="imagenes/icono_seguridad.jpg" alt="seguridad" class="icono">
+                <h3> Seguridad </h3>
+                <p> cámaras, alarmas y cerraduras inteligentes</p>
+                <p class="precio"> Los precios van desde los $2,000 MXN</p>
+                <P class="nivel"> Tipo de instalación: Básica</P>
+            </a>
+
+            <!--Tarjeta de comodidad-->
+            <a href="#comodidad" class="Tarjeta">
+                <img src="imagenes/icono_comodidad.png" alt="comodidad" class="icono">
+                <h3>Comodidad</h3>
+                <p>iluminación y persinas automtizadas y climatización inteligente</p>
+                <p class="precio"> Los precios van desde los $4,000 MXN</p>
+                <P class="nivel">Tipo de inatalación: Media</P>
+            </a>
+
+            <!--Tarejta de entretemiento-->
+            <a href="#entretenimiento" class="Tarjeta">
+                <img src="imagenes/icono_entretenimiento.png" alt="entretemiento" class="icono">
+                <h3>Entretemiento</h3>
+                <p> Audio multizona, pantallas inteligentes</p>
+                <p class="precio"> Los precios van desde los $5,500 MXN</p>
+                <P class="nivel"> Tipo de instalación: Avnazada</P>
+            </a>
+        </div>
+
+        <!--Se realiza el apartado de los paquetes de los servicios-->
+        <h2> Paquetes de servicios que ofrecemos</h2>
+
+        <div class="Tarjetas">
+
+            <!--Servicio de instalación por técnicos certificados-->
+            <div class="Tarjeta">
+                <img src="imagenes/icono_instalacion.png" alt="inatalación" class="icono">
+                <h3>Instalación profesional</h3>
+                <p>Técnicos con experiencia y certificación realizan la correcta instalación, prueba
+                    y configuración del sistema instalado dentro de tu hogar.
+                </p>
+            </div>
+
+            <!--Servicio de polizas de mantenimiento preventivo anual-->
+            <div class="Tarjeta">
+                <img src="imagenes/icono_mantenimiento.png" alt="mantenimiento" class="icono">
+                <h3> mantenimiento preventivo</h3>
+                <p> Se ofrece el servicio de polizas anuales las cuales permiten poder acceder a revisiones
+                    de mantenimiento y actualizaciones del sistema.
+                </p>
+            </div>
+
+            <!--Servcio de soporte técnico -->
+            <div class="Tarjeta">
+                <img src="imagenes/Soporte tecnico.png" alt="soporte" class="icono">
+                <h3> Soporte técnico</h3>
+                <p> Se ofrece asistencia de forma remota con alguno de nuestos especialistas certicados, 
+                    el cual se encuentra disponible los 365 dias del año 24/7.
+                </p>
+            </div>
+        </div>
+
+        <!--Se establece la sección para el centro de atención, los medios de contacto, ubicación y mapa 
+        del centro de atención-->
+
+        <h2 id="Contacto"> Información de contacto </h2>
+
+        <div class="informacion">
+            <h3> Nuestos medios de contacto </h3>
+            <p> WhatsApp: <span class="resaltado"> 55 6789 7654</span></p>
+            <p> Email <span class="resaltado">info@Smartliving.com</span></p>
+            <p> Puebla 143, Roma Nte., Cuauhtémoc, 06700 Ciudad de México, CDMX </p>
+        </div>
+
+        <!-- Se coloca mapa con la ubicación del dentro de atención fisica-->
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3764.1738433245405!2d-99.1711086!3d19.3616239!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff30d9e41b03%3A0x3a004192e510e990!2sUnADM!5e0!3m2!1ses!2smx!4v1779217693956!5m2!1ses!2smx"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <!--Se establece la estructura para el formulario -->
+        <div class="informacion">
+            <h3> Solicitar cotización</h3>
+            <label for="nombre">Nombre Completo: </label>
+            <input type="texto" id="nombre" placeholder="Tu nombre completo">
+
+            <label for="email"> Correo electronico</label>
+            <input type="email" id="correo" placeholder="tu@email.com">
+
+            <label for="servicio"> Servicio que le interasa: </label>
+            <select id="servicio">
+                <option value="">-- Seleciona la opcion de tu interes --</option>
+                <option value="seguridad"> Seguridad</option>
+                <option value="confort"> Confort</option>
+                <option value="entretemiento"> Entretemiento</option>
+                <option value="paquete"> Paquete completo </option>
+            </select>
+
+            <label for="mensaje"> Describe las necesidades especificas </label>
+            <textarea id="mensaje" rows="4"
+                placeholder="Describe de forma clara y breve el tipo de necesidad que necesitas automatizar."></textarea>
+
+            <button class="Principal" onclick="alert('Uno de nuestros asesores se pondra en contacto contigo.')">
+                Enviar Solicitud
+            </button>
+        </div>
+    </main>
+
+    <!--Se establece el pie e página del sitio web dentro del cual se incluye información como lo es
+    el nombre del sitío web y los derechos de autor-->
+    <footer>
+        <p><span>SmartLiving Solutions</span> Hogares inteligentes</p>
+        <p>Daniel Mendoza Gutierrez ES231109257</p>
+        <P>&copy; 2026 Todos los derechos reservados</P>
+    </footer>
+</body>
+
+</html>
